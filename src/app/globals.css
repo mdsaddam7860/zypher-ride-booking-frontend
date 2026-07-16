@@ -1,0 +1,153 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* "Paper + cobalt" — off-white newsprint background, near-black ink,
+       one vivid cobalt accent instead of an evenly-distributed palette. */
+    --background: 40 30% 97%;
+    --foreground: 220 25% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 25% 10%;
+    --primary: 219 90% 52%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 20% 95%;
+    --secondary-foreground: 220 25% 12%;
+    --muted: 220 15% 94%;
+    --muted-foreground: 220 10% 42%;
+    --accent: 78 85% 48%;
+    --accent-foreground: 220 25% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 25% 10%;
+    --destructive: 355 75% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 152 60% 32%;
+    --warning: 38 92% 42%;
+    --warning-foreground: 0 0% 100%;
+    --success-foreground: 0 0% 100%;
+    --border: 220 15% 87%;
+    --input: 220 15% 87%;
+    --ring: 219 90% 52%;
+    --radius: 0.6rem;
+
+    /* Ride-state ladder accent colors, one per pipeline stage. */
+    --ladder-pending: 38 92% 50%;
+    --ladder-assigned: 219 90% 52%;
+    --ladder-accepted: 262 70% 55%;
+    --ladder-progress: 199 89% 45%;
+    --ladder-completed: 152 60% 32%;
+    --ladder-cancelled: 355 75% 50%;
+  }
+
+  .dark {
+    /* "Paper + cobalt", inverted — deep charcoal ink instead of pure black,
+       so cards and borders still have room to separate from the page. */
+    --background: 222 30% 7%;
+    --foreground: 210 20% 96%;
+    --card: 222 26% 10%;
+    --card-foreground: 210 20% 96%;
+    --primary: 219 90% 60%;
+    --primary-foreground: 222 30% 8%;
+    --secondary: 222 20% 15%;
+    --secondary-foreground: 210 20% 96%;
+    --muted: 222 18% 15%;
+    --muted-foreground: 220 10% 65%;
+    --accent: 78 70% 55%;
+    --accent-foreground: 222 30% 8%;
+    --popover: 222 26% 10%;
+    --popover-foreground: 210 20% 96%;
+    --destructive: 355 80% 62%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 152 55% 45%;
+    --warning: 38 92% 55%;
+    --warning-foreground: 222 30% 8%;
+    --success-foreground: 222 30% 8%;
+    --border: 222 18% 20%;
+    --input: 222 18% 20%;
+    --ring: 219 90% 60%;
+
+    --ladder-pending: 38 92% 58%;
+    --ladder-assigned: 219 90% 60%;
+    --ladder-accepted: 262 70% 65%;
+    --ladder-progress: 199 89% 58%;
+    --ladder-completed: 152 55% 45%;
+    --ladder-cancelled: 355 80% 62%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    /* Smooth, native-feeling scrolling on iOS; touch-friendly tap targets
+       everywhere without the default blue/grey flash on tap. */
+    -webkit-overflow-scrolling: touch;
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior-y: none;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Theme switches fade colors instead of snapping — next-themes disables
+     transitions during the switch itself (disableTransitionOnChange), this
+     covers everything else (hover states, route changes, etc). */
+  body,
+  .transition-theme {
+    transition: background-color 200ms ease, border-color 200ms ease, color 200ms ease;
+  }
+}
+
+@layer utilities {
+  .scrollbar-none {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .safe-x {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+}
+
+@layer components {
+  /* One staggered entrance for the rider booking panel — a single
+     well-orchestrated reveal beats scattered micro-animations. */
+  .stagger-in > * {
+    opacity: 0;
+    animation: stagger-rise 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .stagger-in > *:nth-child(1) { animation-delay: 0.02s; }
+  .stagger-in > *:nth-child(2) { animation-delay: 0.08s; }
+  .stagger-in > *:nth-child(3) { animation-delay: 0.14s; }
+  .stagger-in > *:nth-child(4) { animation-delay: 0.2s; }
+  .stagger-in > *:nth-child(5) { animation-delay: 0.26s; }
+  .stagger-in > *:nth-child(6) { animation-delay: 0.32s; }
+}
+
+@keyframes stagger-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
